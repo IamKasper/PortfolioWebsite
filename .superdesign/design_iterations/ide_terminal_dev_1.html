@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Terminal Developer Theme</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #1f2428;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-accent: #58a6ff;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --red: #f85149;
+            --border: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Terminal cursor blink */
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--green);
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .logo {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: '$ ';
+            color: var(--green);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        nav a::before {
+            content: '>';
+            margin-right: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        nav a:hover::before,
+        nav a.active::before {
+            opacity: 1;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text-accent);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            width: 100%;
+        }
+
+        /* Terminal Window */
+        .terminal-window {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .terminal-header {
+            background: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: var(--red); }
+        .dot-yellow { background: var(--yellow); }
+        .dot-green { background: var(--green); }
+
+        .terminal-body {
+            padding: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .terminal-line::before {
+            content: '>';
+            color: var(--green);
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 2rem 0 4rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-accent);
+        }
+
+        .hero h1::before {
+            content: '# ';
+            color: var(--green);
+        }
+
+        .hero-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .command-line {
+            background: var(--bg-tertiary);
+            padding: 1rem 1.5rem;
+            border-left: 3px solid var(--green);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .command-line::before {
+            content: '$ ';
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-accent);
+        }
+
+        .section-title::before {
+            content: '## ';
+            color: var(--green);
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .project-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--text-accent);
+            padding: 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            border-left-color: var(--green);
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-name {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .project-status {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+
+        .status-live {
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        .status-wip {
+            color: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+        }
+
+        .tech-item {
+            color: var(--text-secondary);
+        }
+
+        .tech-item::before {
+            content: '- ';
+            color: var(--green);
+        }
+
+        .project-links {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .project-link {
+            color: var(--text-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .project-link:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+
+        .project-link::before {
+            content: '[';
+            margin-right: 2px;
+        }
+
+        .project-link::after {
+            content: ']';
+            margin-left: 2px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-accent);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+
+        .footer-links a::before {
+            content: '$ git remote add ';
+            color: var(--text-secondary);
+            margin-right: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">~/portfolio</a>
+            <nav>
+                <a href="index.html" class="active">home</a>
+                <a href="about.html">about</a>
+                <a href="projects.html">projects</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-dot dot-red"></span>
+                    <span class="terminal-dot dot-yellow"></span>
+                    <span class="terminal-dot dot-green"></span>
+                    <span style="margin-left: 1rem; color: var(--text-secondary); font-size: 0.85rem;">bash - portfolio</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">cat README.md</div>
+                    <div class="terminal-line" style="color: var(--text-accent);">DEVELOPER | PROBLEM SOLVER | BUILDER</div>
+                    <div class="terminal-line">Hi! I'm a software engineer who loves crafting elegant solutions.</div>
+                    <div class="terminal-line">I specialize in full-stack development with a focus on performance.</div>
+                    <div class="terminal-line" style="margin-top: 1rem;">
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="command-line">./view-projects --filter=featured</div>
+        </section>
+
+        <section class="projects-section">
+            <h2 class="section-title">Featured Projects</h2>
+
+            <div class="project-list">
+                <article class="project-item">
+                    <div class="project-header">
+                        <h3 class="project-name">repo/distributed-cache</h3>
+                        <span class="project-status status-live">● LIVE</span>
+                    </div>
+                    <p class="project-description">
+                        High-performance distributed caching system with Redis-compatible protocol.
+                        Supports clustering, replication, and automatic failover mechanisms.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-item">Go</span>
+                        <span class="tech-item">Redis Protocol</span>
+                        <span class="tech-item">Docker</span>
+                        <span class="tech-item">Kubernetes</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">view source</a>
+                        <a href="#" class="project-link">demo</a>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-header">
+                        <h3 class="project-name">repo/realtime-collab</h3>
+                        <span class="project-status status-live">● LIVE</span>
+                    </div>
+                    <p class="project-description">
+                        Real-time collaborative code editor with syntax highlighting, live cursors,
+                        and operational transformation for conflict-free editing.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-item">TypeScript</span>
+                        <span class="tech-item">WebSocket</span>
+                        <span class="tech-item">Monaco Editor</span>
+                        <span class="tech-item">Node.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">view source</a>
+                        <a href="#" class="project-link">demo</a>
+                    </div>
+                </article>
+
+                <article class="project-item">
+                    <div class="project-header">
+                        <h3 class="project-name">repo/ml-deploy-pipeline</h3>
+                        <span class="project-status status-wip">⚡ WIP</span>
+                    </div>
+                    <p class="project-description">
+                        Automated ML model deployment pipeline with A/B testing, monitoring,
+                        and rollback capabilities. Integrates with popular ML frameworks.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">FastAPI</span>
+                        <span class="tech-item">TensorFlow</span>
+                        <span class="tech-item">MLflow</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">view source</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://github.com/yourusername">github</a>
+            <a href="https://linkedin.com/in/yourusername">linkedin</a>
+            <a href="mailto:your@email.com">email</a>
+        </div>
+        <p>// Built with semantic HTML and vanilla CSS | &copy; 2026</p>
+    </footer>
+</body>
+</html>

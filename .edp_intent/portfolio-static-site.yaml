@@ -1,0 +1,134 @@
+version: "1.0.0"
+generatedBy: "edp-6-mcp"
+timestamp: "2026-01-10T19:30:00Z"
+originalIntent: "I want my portfolio to display my past and current projects to potential employers, friends, family. Theme: dark/modern/sleek/minimalistic. Pages: index.html (Home), about.html (About Me), projects.html (Projects). Features: Shared header/footer on every page, navigation menu linking all pages, active page highlighting, unique title per page, at least 2 sections per page, proper file structure (all files in one folder), external CSS file (style.css)."
+
+scope:
+  allowedPaths:
+    - "index.html"
+    - "about.html"
+    - "projects.html"
+    - "style.css"
+    - "main.js"  # optional enhancement script
+  forbiddenPaths:
+    - "src/**"
+    - "dist/**"
+    - "node_modules/**"
+    - "package.json"
+    - "webpack.config.js"
+    - "*.scss"
+    - "*.sass"
+  newFiles:
+    - "index.html"
+    - "about.html"
+    - "projects.html"
+    - "style.css"
+    - "main.js"  # optional
+
+apiContracts:
+  - name: "Header Component"
+    type: "html-template"
+    params:
+      - name: "pageIdentifier"
+        type: "data-page attribute value"
+    returns: "consistent header markup across all pages"
+    required: true
+
+  - name: "Footer Component"
+    type: "html-template"
+    params: []
+    returns: "consistent footer markup across all pages"
+    required: true
+
+  - name: "Navigation Active State"
+    type: "css-pattern"
+    params:
+      - name: "currentPage"
+        type: "data-page body attribute"
+    returns: "visual highlighting of current page link"
+    required: true
+
+  - name: "highlightActivePage"
+    type: "function"
+    params:
+      - name: "pageIdentifier"
+        type: "string"
+    returns: "void"
+    required: false  # optional JavaScript enhancement
+
+acceptanceCriteria:
+  - id: "AC-001"
+    description: "All three pages exist with unique titles"
+    given: "Portfolio website is loaded"
+    when: "User navigates to index.html, about.html, or projects.html"
+    then: "Browser tab shows unique page title (Home, About Me, or Projects)"
+
+  - id: "AC-002"
+    description: "Shared header appears identically on all pages"
+    given: "All three HTML pages are created"
+    when: "User views header HTML source on each page"
+    then: "Header markup is byte-for-byte identical across all pages"
+
+  - id: "AC-003"
+    description: "Shared footer appears identically on all pages"
+    given: "All three HTML pages are created"
+    when: "User views footer HTML source on each page"
+    then: "Footer markup is byte-for-byte identical across all pages"
+
+  - id: "AC-004"
+    description: "Navigation links work on all pages"
+    given: "User is on any page"
+    when: "User clicks navigation links"
+    then: "All pages are accessible with no 404 errors"
+
+  - id: "AC-005"
+    description: "Active page is visually highlighted in navigation"
+    given: "User is on a specific page"
+    when: "User views the navigation menu"
+    then: "Current page link has distinct visual styling (color, underline, or weight)"
+
+  - id: "AC-006"
+    description: "Each page has at least 2 sections"
+    given: "HTML pages are created"
+    when: "User inspects page structure"
+    then: "Each page contains minimum 2 <section> elements"
+
+  - id: "AC-007"
+    description: "Dark theme is applied consistently"
+    given: "CSS file is loaded"
+    when: "User views any page"
+    then: "Dark background, light text, modern/sleek aesthetic is visible"
+
+  - id: "AC-008"
+    description: "External CSS is used (no inline styles)"
+    given: "HTML pages are created"
+    when: "User inspects HTML files"
+    then: "No style attributes exist, only <link> to style.css"
+
+  - id: "AC-009"
+    description: "All files are in one folder"
+    given: "Project is deployed"
+    when: "User views project directory structure"
+    then: "All .html and .css files are in root directory (no subdirectories)"
+
+nonGoals:
+  - "Backend server or API implementation"
+  - "Contact form functionality"
+  - "Blog or CMS integration"
+  - "Build process or task runners (Webpack, Gulp, etc.)"
+  - "CSS preprocessors (Sass, Less, Stylus)"
+  - "JavaScript frameworks (React, Vue, Angular)"
+  - "Image optimization pipeline"
+  - "Multi-language support (i18n)"
+  - "Database integration"
+  - "User authentication"
+  - "Analytics integration"
+  - "SEO optimization beyond basic meta tags"
+  - "Automated testing setup"
+  - "Continuous deployment pipeline"
+
+complexityBudget:
+  maxNewFunctions: 1  # optional highlightActivePage() only
+  maxNewFiles: 5  # 3 HTML + 1 CSS + 1 optional JS
+  maxLinesOfCode: 500  # ~100 per HTML page, ~400 CSS, ~10 JS
+  maxDependencies: 0  # no external libraries
