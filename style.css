@@ -396,3 +396,232 @@ body {
     opacity: 0;
     visibility: hidden;
 }
+
+/* 8. EASTER EGG - CAT PAGE */
+.cat-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-primary);
+    padding: var(--space-lg);
+}
+
+.spinning-cat-gif {
+    max-width: 400px;
+    width: 100%;
+}
+
+.cat-message {
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+    margin-top: var(--space-xl);
+    animation: catBounce 0.5s ease-in-out infinite alternate;
+}
+
+.cat-submessage {
+    color: var(--text-secondary);
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-sm);
+    font-style: italic;
+}
+
+@keyframes catBounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+.cat-back {
+    margin-top: var(--space-lg);
+}
+
+/* Hidden Button */
+.hidden-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.05;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.hidden-button:hover {
+    opacity: 0.3;
+}
+
+/* 9. LOGIN PAGE */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-primary);
+    padding: var(--space-lg);
+}
+
+.login-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+}
+
+.login-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 0.9rem;
+    display: none;
+}
+
+.login-btn {
+    width: 100%;
+    margin-top: var(--space-sm);
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: var(--space-lg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+/* Dashboard */
+.dashboard {
+    width: 100%;
+    max-width: 600px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.dashboard-header h1 {
+    font-size: var(--font-size-xl);
+}
+
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.dashboard-content {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.access-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+}
+
+.access-card h2 {
+    margin-bottom: var(--space-sm);
+    color: var(--accent);
+}
+
+.access-card p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.admin-card {
+    border-color: var(--accent);
+}
+
+.secret-message {
+    background: var(--bg-primary);
+    padding: var(--space-sm);
+    border-radius: 6px;
+    margin-top: var(--space-sm);
+}
+
+.secret-message p {
+    font-size: 0.85rem;
+    margin-bottom: var(--space-xs);
+}
+
+.secret-message code {
+    color: var(--accent);
+    font-family: monospace;
+}
+
+.hidden {
+    display: none !important;
+}

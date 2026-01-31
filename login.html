@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="login">
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="login-title">Secret Portal</h1>
+            <p class="login-subtitle">Enter your credentials</p>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <p id="errorMsg" class="error-message"></p>
+                <button type="submit" class="cta-button login-btn">Login</button>
+            </form>
+
+            <a href="secret.html" class="back-link">Go Back</a>
+        </div>
+
+        <!-- Dashboard (hidden by default) -->
+        <div id="dashboard" class="dashboard hidden">
+            <div class="dashboard-header">
+                <h1>Welcome, <span id="displayName"></span>!</h1>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+
+            <div id="guestContent" class="dashboard-content hidden">
+                <div class="access-card">
+                    <h2>Guest Access</h2>
+                    <p>You have limited access to this portal.</p>
+                    <div class="secret-message">
+                        <p>Secret message #1:</p>
+                        <code>The cake is a lie.</code>
+                    </div>
+                </div>
+            </div>
+
+            <div id="adminContent" class="dashboard-content hidden">
+                <div class="access-card admin-card">
+                    <h2>Admin Access</h2>
+                    <p>Full access granted. Welcome, administrator.</p>
+                    <div class="secret-message">
+                        <p>Secret message #1:</p>
+                        <code>The cake is a lie.</code>
+                    </div>
+                    <div class="secret-message">
+                        <p>Secret message #2:</p>
+                        <code>All your base are belong to us.</code>
+                    </div>
+                    <div class="secret-message">
+                        <p>Admin Secret:</p>
+                        <code>konami code: up up down down left right left right B A</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple client-side login (NOT secure - for fun only!)
+        const accounts = {
+            'guest': { password: 'guest', role: 'guest', displayName: 'Guest' },
+            'admin': { password: 'admin', role: 'admin', displayName: 'Administrator' }
+        };
+
+        const loginForm = document.getElementById('loginForm');
+        const dashboard = document.getElementById('dashboard');
+        const loginBox = document.querySelector('.login-box');
+        const errorMsg = document.getElementById('errorMsg');
+        const displayName = document.getElementById('displayName');
+        const guestContent = document.getElementById('guestContent');
+        const adminContent = document.getElementById('adminContent');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Check if already logged in
+        const savedUser = sessionStorage.getItem('loggedInUser');
+        if (savedUser && accounts[savedUser]) {
+            showDashboard(savedUser);
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (accounts[username] && accounts[username].password === password) {
+                sessionStorage.setItem('loggedInUser', username);
+                showDashboard(username);
+            } else {
+                errorMsg.textContent = 'Invalid username or password';
+                errorMsg.style.display = 'block';
+            }
+        });
+
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.removeItem('loggedInUser');
+            location.reload();
+        });
+
+        function showDashboard(username) {
+            const user = accounts[username];
+            loginBox.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            displayName.textContent = user.displayName;
+
+            if (user.role === 'admin') {
+                adminContent.classList.remove('hidden');
+            } else {
+                guestContent.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
