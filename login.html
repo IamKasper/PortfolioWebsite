@@ -11,6 +11,7 @@
         <div class="login-box">
             <h1 class="login-title">Secret Portal</h1>
             <p class="login-subtitle">Enter your credentials</p>
+            <p class="login-hint">Not an admin? Use <strong>guest</strong> / <strong>guest</strong></p>
 
             <form id="loginForm" class="login-form">
                 <div class="form-group">
@@ -38,10 +39,10 @@
             <div id="guestContent" class="dashboard-content hidden">
                 <div class="access-card">
                     <h2>Guest Access</h2>
-                    <p>You have limited access to this portal.</p>
+                    <p>There's nothing to see here.</p>
                     <div class="secret-message">
-                        <p>Secret message #1:</p>
-                        <code>The cake is a lie.</code>
+                        <p>message</p>
+                        <code>Zm9vbAo=  Base64</code>
                     </div>
                 </div>
             </div>
@@ -69,6 +70,7 @@
 
     <script>
         // Simple client-side login (NOT secure - for fun only!)
+        // Login resets on page refresh or leave
         const accounts = {
             'guest': { password: 'guest', role: 'guest', displayName: 'Guest' },
             'admin': { password: 'admin', role: 'admin', displayName: 'Administrator' }
@@ -83,12 +85,6 @@
         const adminContent = document.getElementById('adminContent');
         const logoutBtn = document.getElementById('logoutBtn');
 
-        // Check if already logged in
-        const savedUser = sessionStorage.getItem('loggedInUser');
-        if (savedUser && accounts[savedUser]) {
-            showDashboard(savedUser);
-        }
-
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -96,7 +92,6 @@
             const password = document.getElementById('password').value;
 
             if (accounts[username] && accounts[username].password === password) {
-                sessionStorage.setItem('loggedInUser', username);
                 showDashboard(username);
             } else {
                 errorMsg.textContent = 'Invalid username or password';
@@ -105,7 +100,6 @@
         });
 
         logoutBtn.addEventListener('click', function() {
-            sessionStorage.removeItem('loggedInUser');
             location.reload();
         });
 

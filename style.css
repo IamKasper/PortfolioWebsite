@@ -440,6 +440,102 @@ body {
     margin-top: var(--space-lg);
 }
 
+.timer-result {
+    color: var(--accent);
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+}
+
+/* Submit Score Form */
+.submit-score {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.submit-score input {
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    width: 180px;
+}
+
+.submit-score input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Leaderboard */
+.leaderboard {
+    margin-top: var(--space-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-md);
+    width: 100%;
+    max-width: 350px;
+}
+
+.leaderboard-title {
+    text-align: center;
+    margin-bottom: var(--space-md);
+    color: var(--text-primary);
+    font-size: var(--font-size-lg);
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-list li:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-list li:nth-child(1) {
+    color: #ffd700;
+}
+
+.leaderboard-list li:nth-child(2) {
+    color: #c0c0c0;
+}
+
+.leaderboard-list li:nth-child(3) {
+    color: #cd7f32;
+}
+
+.lb-name {
+    font-weight: 500;
+}
+
+.lb-time {
+    color: var(--accent);
+    font-family: monospace;
+}
+
+.leaderboard-empty {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 /* Hidden Button */
 .hidden-button {
     position: absolute;
@@ -484,7 +580,18 @@ body {
 
 .login-subtitle {
     color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.login-hint {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
     margin-bottom: var(--space-lg);
+    opacity: 0.7;
+}
+
+.login-hint strong {
+    color: var(--accent);
 }
 
 .login-form {

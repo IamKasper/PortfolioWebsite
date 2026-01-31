@@ -111,5 +111,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
+    <script>
+        // Start the secret cat timer if not already started
+        if (!localStorage.getItem('catHuntStart')) {
+            localStorage.setItem('catHuntStart', Date.now());
+        }
+    </script>
 </body>
 </html>
