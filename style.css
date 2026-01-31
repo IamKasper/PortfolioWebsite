@@ -729,6 +729,123 @@ body {
     font-family: monospace;
 }
 
+/* Admin Leaderboard Management */
+.leaderboard-admin {
+    margin-top: var(--space-lg);
+}
+
+.admin-leaderboard {
+    margin: var(--space-md) 0;
+}
+
+.admin-score-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    background: var(--bg-primary);
+    border-radius: 6px;
+    margin-bottom: var(--space-xs);
+}
+
+.score-rank {
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 35px;
+}
+
+.score-name {
+    flex: 1;
+    color: var(--text-primary);
+}
+
+.score-time {
+    color: var(--accent);
+    font-family: monospace;
+    min-width: 70px;
+    text-align: right;
+}
+
+.score-actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.edit-btn, .delete-btn {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    color: var(--accent);
+}
+
+.edit-btn:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.delete-btn {
+    color: #ef4444;
+}
+
+.delete-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+.clear-all-btn {
+    width: 100%;
+    margin-top: var(--space-sm);
+}
+
+/* Edit Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+    width: 100%;
+    max-width: 350px;
+}
+
+.modal-content h3 {
+    margin-bottom: var(--space-md);
+    color: var(--text-primary);
+}
+
+.modal-content .form-group {
+    margin-bottom: var(--space-md);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.modal-buttons button {
+    flex: 1;
+}
+
 .hidden {
     display: none !important;
 }

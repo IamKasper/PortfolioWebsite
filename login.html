@@ -64,6 +64,35 @@
                         <code>konami code: up up down down left right left right B A</code>
                     </div>
                 </div>
+
+                <!-- Leaderboard Management -->
+                <div class="access-card admin-card leaderboard-admin">
+                    <h2>Leaderboard Management</h2>
+                    <p>Edit or remove scores from the cat hunt leaderboard.</p>
+                    <div id="adminLeaderboard" class="admin-leaderboard">
+                        <p class="leaderboard-empty">No scores yet</p>
+                    </div>
+                    <button id="clearAllBtn" class="logout-btn clear-all-btn">Clear All Scores</button>
+                </div>
+
+                <!-- Edit Modal -->
+                <div id="editModal" class="modal hidden">
+                    <div class="modal-content">
+                        <h3>Edit Score</h3>
+                        <div class="form-group">
+                            <label for="editName">Name</label>
+                            <input type="text" id="editName" maxlength="15">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTime">Time (seconds)</label>
+                            <input type="number" id="editTime" min="0" step="0.1">
+                        </div>
+                        <div class="modal-buttons">
+                            <button id="saveEditBtn" class="cta-button">Save</button>
+                            <button id="cancelEditBtn" class="logout-btn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -111,9 +140,126 @@
 
             if (user.role === 'admin') {
                 adminContent.classList.remove('hidden');
+                renderAdminLeaderboard();
+                initAdminControls();
             } else {
                 guestContent.classList.remove('hidden');
             }
+        }
+
+        // Admin Leaderboard Management
+        let editingIndex = null;
+
+        function getLeaderboard() {
+            const data = localStorage.getItem('catLeaderboard');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveLeaderboard(leaderboard) {
+            localStorage.setItem('catLeaderboard', JSON.stringify(leaderboard));
+        }
+
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            if (minutes > 0) {
+                return `${minutes}m ${seconds % 60}s`;
+            }
+            return `${(ms / 1000).toFixed(1)}s`;
+        }
+
+        function renderAdminLeaderboard() {
+            const leaderboard = getLeaderboard();
+            const container = document.getElementById('adminLeaderboard');
+
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<p class="leaderboard-empty">No scores yet</p>';
+                return;
+            }
+
+            const sorted = leaderboard
+                .map((entry, index) => ({ ...entry, originalIndex: index }))
+                .sort((a, b) => a.time - b.time);
+
+            container.innerHTML = sorted.map((entry, rank) => `
+                <div class="admin-score-row">
+                    <span class="score-rank">#${rank + 1}</span>
+                    <span class="score-name">${entry.name}</span>
+                    <span class="score-time">${formatTime(entry.time)}</span>
+                    <div class="score-actions">
+                        <button class="edit-btn" data-index="${entry.originalIndex}">Edit</button>
+                        <button class="delete-btn" data-index="${entry.originalIndex}">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners
+            container.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.index)));
+            });
+
+            container.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => deleteScore(parseInt(btn.dataset.index)));
+            });
+        }
+
+        function openEditModal(index) {
+            const leaderboard = getLeaderboard();
+            const entry = leaderboard[index];
+            if (!entry) return;
+
+            editingIndex = index;
+            document.getElementById('editName').value = entry.name;
+            document.getElementById('editTime').value = (entry.time / 1000).toFixed(1);
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            editingIndex = null;
+        }
+
+        function saveEdit() {
+            if (editingIndex === null) return;
+
+            const leaderboard = getLeaderboard();
+            const newName = document.getElementById('editName').value.trim() || 'Anonymous';
+            const newTime = parseFloat(document.getElementById('editTime').value) * 1000;
+
+            if (newTime > 0) {
+                leaderboard[editingIndex] = { name: newName, time: newTime };
+                saveLeaderboard(leaderboard);
+                renderAdminLeaderboard();
+            }
+
+            closeEditModal();
+        }
+
+        function deleteScore(index) {
+            if (confirm('Delete this score?')) {
+                const leaderboard = getLeaderboard();
+                leaderboard.splice(index, 1);
+                saveLeaderboard(leaderboard);
+                renderAdminLeaderboard();
+            }
+        }
+
+        function clearAllScores() {
+            if (confirm('Clear ALL scores? This cannot be undone.')) {
+                localStorage.removeItem('catLeaderboard');
+                renderAdminLeaderboard();
+            }
+        }
+
+        function initAdminControls() {
+            document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
+            document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+            document.getElementById('clearAllBtn').addEventListener('click', clearAllScores);
+
+            // Close modal on outside click
+            document.getElementById('editModal').addEventListener('click', function(e) {
+                if (e.target === this) closeEditModal();
+            });
         }
     </script>
 </body>
